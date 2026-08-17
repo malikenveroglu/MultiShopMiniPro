@@ -1,11 +1,11 @@
-﻿@model Slide
+﻿@model UpdateSlideVM
 
 <div class="row">
     <div class="col-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Update Slide</h4>
-                <form class="forms-sample" method="post">
+                <form class="forms-sample" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label asp-for="Title">Title</label>
                         <input asp-for="Title" class="form-control" placeholder="Title">
@@ -22,9 +22,13 @@
                         <span class="text-danger" asp-validation-for="Order"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Image">Image</label>
-                        <input asp-for="Image" class="form-control" placeholder="Image">
-                        <span class="text-danger" asp-validation-for="Image"></span>
+                        <img style="width:150px; height:150px;" src="~/img/@Model.Image"/>
+                        <br />
+                        <input asp-for="Image" type="hidden">
+                        <br/>
+                        <label asp-for="Photo">Image</label>
+                        <input asp-for="Photo" class="form-control" accept="image/*">
+                        <span class="text-danger" asp-validation-for="Photo"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Description">Description</label>

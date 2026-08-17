@@ -31,7 +31,7 @@
                                     <td> @count </td>
 
                                     <td class="py-1">
-                                        <img src="~/Admin/assets/images/@item.Image" alt="@item.Title" />
+                                        <img src="~/img/@item.Image" alt="@item.Title" />
                                     </td>
 
                                     <td>
@@ -41,7 +41,7 @@
                                     <td> @item.Order </td>
 
                                     <td> 
-                                        <a asp-action="update" asp-route-id="@item.Id" class="btn btn-primary"> <i> fa fa-edit </i> </a>
+                                        <a asp-action="update" asp-route-id="@item.Id" class="btn btn-primary"> <i class="fa fa-edit">  </i> </a>
                                         <a asp-action="delete" asp-route-id="@item.Id" class="btn btn-danger"> <i> fa fa-trash-o </i> </a>
                                         <a asp-action="detail" asp-route-id="@item.Id" class="btn btn-success"> <i> fa fa-gears </i></a>
                                     </td>
