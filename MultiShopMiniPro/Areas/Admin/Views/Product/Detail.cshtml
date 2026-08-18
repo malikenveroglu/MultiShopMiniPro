@@ -1,15 +1,25 @@
-﻿@model Slide
+﻿@model Product
 
 <div class="row">
     <div class="col-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Details of Slide</h4>
+                <h4 class="card-title">Details of Product</h4>
                 <form class="forms-sample" method="post">
                     <div class="form-group">
-                        <label asp-for="Title">Title</label>
-                        <input asp-for="Title" class="form-control" placeholder="Title" readonly>
-                        <span class="text-danger" asp-validation-for="Title"></span>
+                        <label asp-for="Name">Name</label>
+                        <input asp-for="Name" class="form-control" placeholder="Name" readonly>
+                        <span class="text-danger" asp-validation-for="Name"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Price">Price</label>
+                        <input asp-for="Price" class="form-control" placeholder="Price" readonly>
+                        <span class="text-danger" asp-validation-for="Price"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ExPrice">Discount Price</label>
+                        <input asp-for="ExPrice" class="form-control" placeholder="Discount Price" readonly>
+                        <span class="text-danger" asp-validation-for="ExPrice"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="SubTitle">Sub-Title</label>
@@ -25,7 +35,6 @@
                         <img style="width:150px; height:150px;" src="~/assets/img/@Model.Image" />
                         <br />
                         <br />
-
                         <label asp-for="Image">Image</label>
                         <input asp-for="Image" class="form-control" placeholder="Image" readonly hidden>
                         <span class="text-danger" asp-validation-for="Image"></span>
@@ -36,7 +45,7 @@
                         <span class="text-danger" asp-validation-for="Description"></span>
                     </div>
                     <button type="submit" class="btn btn-primary me-2" disabled>Submit</button>
-                    <button asp-controller="slide" asp-action="index" class="btn btn-dark">Cancel</button>
+                    <button asp-controller="product" asp-action="index" class="btn btn-dark">Cancel</button>
                 </form>
             </div>
         </div>

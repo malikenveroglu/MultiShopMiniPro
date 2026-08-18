@@ -28,7 +28,7 @@ namespace MultiShopMiniPro.Controllers
 
             if (product is null) return NotFound();
 
-            List<Product> relatedProds = await _context.Products.Where(p => p.Id > 5).ToListAsync();
+            List<Product> relatedProds = await _context.Products.Where(p => p.Id > 8).ToListAsync();
 
             DetailVM detailVM = new()
             {

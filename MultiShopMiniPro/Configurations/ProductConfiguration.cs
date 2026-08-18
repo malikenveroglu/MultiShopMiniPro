@@ -37,6 +37,9 @@ namespace MultiShopMiniPro.DAL.Configurations
 
             builder.Property(p => p.IsDeleted)
                 .IsRequired();
+
+            builder.Property(p => p.Order)
+                .IsRequired();
         }
     }
 }

@@ -38,9 +38,9 @@ namespace MultiShopMiniPro.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid) return View();
 
-            if (!slideVM.Photo.ValidateSize(FileSize.MB,2))
+            if (!slideVM.Photo.ValidateSize(FileSize.MB,5))
             {
-                ModelState.AddModelError(nameof(CreateSlideVM.Photo),"File size must be less than 2 MB");
+                ModelState.AddModelError(nameof(CreateSlideVM.Photo),"File size must be less than 5 MB");
                 return View();
             }
 
@@ -58,7 +58,7 @@ namespace MultiShopMiniPro.Areas.Admin.Controllers
                 return View();
             }
 
-            string image = await slideVM.Photo.CreateFileAsync(_env.WebRootPath, "img");
+            string image = await slideVM.Photo.CreateFileAsync(_env.WebRootPath, "assets", "img");
 
             Slide slide = new Slide
             {
@@ -103,9 +103,9 @@ namespace MultiShopMiniPro.Areas.Admin.Controllers
 
             if(slideVM.Photo is not null)
             {
-                if(!slideVM.Photo.ValidateSize(FileSize.MB, 2))
+                if(!slideVM.Photo.ValidateSize(FileSize.MB, 5))
                 {
-                    ModelState.AddModelError(nameof(UpdateSlideVM.Photo), "File size must be less than 2 MB");
+                    ModelState.AddModelError(nameof(UpdateSlideVM.Photo), "File size must be less than 5 MB");
                     return View(slideVM);
                 }
 
@@ -128,8 +128,8 @@ namespace MultiShopMiniPro.Areas.Admin.Controllers
 
             if (slideVM.Photo is not null)
             {
-                string newFileName = await slideVM.Photo.CreateFileAsync(_env.WebRootPath, "img");
-                existed.Image.DeleteFile(_env.WebRootPath, "img");
+                string newFileName = await slideVM.Photo.CreateFileAsync(_env.WebRootPath, "assets", "img");
+                existed.Image.DeleteFile(_env.WebRootPath, "assets", "img");
                 existed.Image = newFileName;
             }
 
@@ -153,7 +153,7 @@ namespace MultiShopMiniPro.Areas.Admin.Controllers
 
             if (existed is null) return NotFound();
 
-            existed.Image.DeleteFile(_env.WebRootPath,"img");
+            existed.Image.DeleteFile(_env.WebRootPath,"assets","img");
 
             _context.Slides.Remove(existed);
             await _context.SaveChangesAsync();
