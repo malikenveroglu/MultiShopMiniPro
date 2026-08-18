@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MultiShopMiniPro.ViewModels
 {
@@ -28,5 +29,10 @@ namespace MultiShopMiniPro.ViewModels
 
         [Required(ErrorMessage = "Order is required")]
         public int Order { get; set; }
+
+        [Required(ErrorMessage = "Category is required")]
+        public int CategoryId { get; set; }
+
+        public List<SelectListItem>? Categories { get; set; }
     }
 }

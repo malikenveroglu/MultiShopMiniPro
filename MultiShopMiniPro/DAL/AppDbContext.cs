@@ -10,6 +10,7 @@ namespace MultiShopMiniPro.DAL
 
         public DbSet<Slide> Slides { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

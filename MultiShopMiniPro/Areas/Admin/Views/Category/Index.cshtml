@@ -1,4 +1,4 @@
-﻿@model List<Product>
+﻿@model List<Category>
 
 @{
     int count = 0;
@@ -9,7 +9,18 @@
 
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Product Table</h4>
+                <h4 class="card-title">Category Table</h4>
+
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger">
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <p class="mb-0">@error.ErrorMessage</p>
+                        }
+                    </div>
+                }
+
                 <a class="btn btn-success" asp-action="Create"> Create </a>
                 <div class="table-responsive">
                     <table class="table table-striped">
@@ -18,27 +29,24 @@
                                 <th> No </th>
                                 <th> Image </th>
                                 <th> Name </th>
-                                <th> Price </th>
-                                <th> Ex Price </th>
-                                <th> Order </th>
-                                <th> Category </th>
+                                <th> Product Count </th>
                                 <th> Settings </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (Product item in Model)
+                            @foreach (Category item in Model)
                             {
                                 count++;
                                 <tr>
-                                    <td> @count </td>   
+                                    <td> @count </td>
+
                                     <td class="py-1">
                                         <img src="~/assets/img/@item.Image" alt="@item.Name" style="width:60px; height:60px; object-fit:cover;" />
                                     </td>
+
                                     <td> @item.Name </td>
-                                    <td> @item.Price </td>
-                                    <td> @item.ExPrice </td>
-                                    <td> @item.Order </td>
-                                    <td> @item.Category?.Name </td>
+                                    <td> @item.ProductCount </td>
+
                                     <td>
                                         <a asp-action="update" asp-route-id="@item.Id" class="btn btn-primary"> <i class="fa fa-edit"></i> </a>
                                         <a asp-action="delete" asp-route-id="@item.Id" class="btn btn-danger"> <i class="fa fa-trash-o"></i> </a>

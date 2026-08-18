@@ -24,14 +24,13 @@ namespace MultiShopMiniPro.Utilities.Extensions
             return file.ContentType.Contains(type);
         }
 
-        public static async Task<string> CreateFileAsync(this IFormFile file,params string[] roots)
+        public static async Task<string> CreateFileAsync(this IFormFile file, params string[] roots)
         {
             string fileName = string.Concat(Guid.NewGuid().ToString(), Path.GetExtension(file.FileName));
 
             string path = CombinePath(fileName, roots);
 
-            FileStream stream = new FileStream(path, FileMode.Create);
-
+            await using FileStream stream = new FileStream(path, FileMode.Create);
             await file.CopyToAsync(stream);
 
             return fileName;
