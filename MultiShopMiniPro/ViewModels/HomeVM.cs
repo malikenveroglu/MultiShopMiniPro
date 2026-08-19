@@ -8,6 +8,7 @@ namespace MultiShopMiniPro.ViewModels
         public List<Product> RecentProducts { get; set; }
         public List<Slide> Slides { get; set; }
         public List<Slide> Offers { get; set; }
+        public List<Category> Categories { get; set; }
 
     }
 }

@@ -1,0 +1,13 @@
+﻿@model List<Category>
+
+@if (Model is not null && Model.Any())
+{
+    @foreach (Category category in Model)
+    {
+        <a asp-controller="category" asp-action="detail" asp-route-id="@category.Id" class="nav-item nav-link">@category.Name</a>
+    }
+}
+else
+{
+    <span class="nav-item nav-link text-muted">No categories yet</span>
+}

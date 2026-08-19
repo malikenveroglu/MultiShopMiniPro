@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MultiShopMiniPro.DAL;
 using MultiShopMiniPro.Models;
@@ -15,20 +14,33 @@ namespace MultiShopMiniPro.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index()
         {
-            return View();
+            List<Product> products = await _context.Products
+                .Where(p => !p.IsDeleted)
+                .Include(p => p.Category)
+                .OrderBy(p => p.Order)
+                .ToListAsync();
+
+            return View(products);
         }
 
-        public async  Task<IActionResult> Detail(int? id)
+        public async Task<IActionResult> Detail(int? id)
         {
-            if(id is null || id < 1) return BadRequest();
+            if (id is null || id < 1) return BadRequest();
 
-            Product? product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            Product? product = await _context.Products
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted);
 
             if (product is null) return NotFound();
 
-            List<Product> relatedProds = await _context.Products.Where(p => p.Id > 8).ToListAsync();
+            List<Product> relatedProds = await _context.Products
+                .Where(p => p.CategoryId == product.CategoryId && p.Id != product.Id && !p.IsDeleted)
+                .Include(p => p.Category)
+                .OrderBy(p => p.Order)
+                .ToListAsync();
 
             DetailVM detailVM = new()
             {

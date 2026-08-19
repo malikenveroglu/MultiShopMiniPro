@@ -1,5 +1,4 @@
-﻿
-@model DetailVM
+﻿@model DetailVM
 
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
@@ -258,7 +257,9 @@
                 {
                     <div class="product-item bg-light">
                         <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="~/assets/img/@item.Image" alt=@item.Image>
+                            <a asp-controller="product" asp-action="detail" asp-route-id="@item.Id">
+                                <img class="img-fluid w-100" src="~/assets/img/@item.Image" alt="@item.Name">
+                            </a>
                             <div class="product-action">
                                 <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
                                 <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
@@ -267,7 +268,11 @@
                             </div>
                         </div>
                         <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" asp-controller="product" asp-action="detail" asp-route-id="@item.Id" src="~/assets/img/@item.Image">@item.Name</a>
+                            @if (item.Category is not null)
+                            {
+                                <a class="d-block small text-primary text-uppercase mb-1 text-decoration-none" asp-controller="category" asp-action="detail" asp-route-id="@item.CategoryId">@item.Category.Name</a>
+                            }
+                            <a class="h6 text-decoration-none text-truncate" asp-controller="product" asp-action="detail" asp-route-id="@item.Id">@item.Name</a>
                             <div class="d-flex align-items-center justify-content-center mt-2">
                                 <h5>$@item.Price</h5><h6 class="text-muted ml-2"><del>$@item.ExPrice</del></h6>
                             </div>

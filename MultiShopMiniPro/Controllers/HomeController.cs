@@ -16,13 +16,15 @@ namespace MultiShopMiniPro.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            List<Product> feauterdProducts = await _context.Products.OrderBy(p => p.Order).Where(p=>p.Order < 9).ToListAsync();
+            List<Product> feauterdProducts = await _context.Products.Where(p => !p.IsDeleted && p.Order < 9).Include(p => p.Category).OrderBy(p => p.Order).ToListAsync();
 
-            List<Product> recentProducts = await _context.Products.OrderBy(p => p.Order).Where(p=>p.Order > 8).ToListAsync();
+            List<Product> recentProducts = await _context.Products.Where(p => !p.IsDeleted && p.Order > 8).Include(p => p.Category).OrderBy(p => p.Order).ToListAsync();
 
             List<Slide> slides = await _context.Slides.OrderBy(s => s.Order).Take(3).ToListAsync();
 
             List<Slide> offers = await _context.Slides.Where(o=>o.Order==4 || o.Order==5).ToListAsync();
+
+            List<Category> categories = await _context.Categories.Where(c => !c.IsDeleted).ToListAsync();
 
 
             HomeVM homeVM = new()
@@ -30,7 +32,8 @@ namespace MultiShopMiniPro.Controllers
                 FeaturedProducts = feauterdProducts,
                 RecentProducts = recentProducts,
                 Slides = slides,
-                Offers = offers
+                Offers = offers,
+                Categories = categories
             };
 
             return View(homeVM);  

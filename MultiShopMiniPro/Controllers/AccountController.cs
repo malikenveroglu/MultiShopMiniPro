@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MultiShopMiniPro.Models;
 using MultiShopMiniPro.ViewModels;
 
@@ -21,7 +22,7 @@ namespace MultiShopMiniPro.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterVM userVM)
+        public async Task<IActionResult> Register(RegisterVM userVM, string? returnUrl)
         {
             if (!ModelState.IsValid) return View();
 
@@ -46,6 +47,57 @@ namespace MultiShopMiniPro.Controllers
             }
 
             await _signInManager.SignInAsync(user, false);
+
+            if (returnUrl is not null) return Redirect(returnUrl);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginVM userVM, string? returnUrl)
+        {
+            if (!ModelState.IsValid) return View();
+
+            AppUser user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == userVM.EmailOrUsername || u.Email == userVM.EmailOrUsername);
+
+            if(user is null)
+            {
+                ModelState.AddModelError(string.Empty, "Email, UserName or Password is Incorrect");
+                return View();
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(user, userVM.Password, userVM.IsPersisted, true);
+
+            if (!result.Succeeded)
+            {
+                if (result.IsLockedOut)
+                {
+                    ModelState.AddModelError(string.Empty, "Try Again After 3 Minutes");
+                    return View();
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Email, UserName or Password is Incorrect");
+                    return View();
+                } 
+            }
+
+            if(returnUrl is not null) return Redirect(returnUrl);
+
+            return RedirectToAction("Index", "Home");
+
+        }
+
+        public async Task<IActionResult> Logout(string? returnUrl)
+        {
+            await _signInManager.SignOutAsync();
+
+            if (returnUrl is not null) return Redirect(returnUrl);
 
             return RedirectToAction("Index", "Home");
         }
